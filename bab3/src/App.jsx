@@ -1,5 +1,6 @@
 import './App.css';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import AppNavigation from './component/AppNavigation';
 import Badge from './component/Badge';
 import CardStatusDemo from './component/CardStatusDemo';
