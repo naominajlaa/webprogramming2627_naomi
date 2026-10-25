@@ -1,6 +1,6 @@
 import { Container, Row, Col } from 'react-bootstrap';
 
-export default function LayoutGrid () {
+export default function LayoutGrid() {
     return (
         <Container className="my-4">
         <Row>
@@ -12,8 +12,7 @@ export default function LayoutGrid () {
                 </Col>
                 {/* Mengambil 4 sari 12 kolom sisanya */}
                 <Col md={4}>
-                    <div className="p-3 bg-light border rounded">Ringkasan 
-            Saldo</div>
+                    <div className="p-3 bg-light border rounded">Ringkasan Saldo</div>
                 </Col>
         </Row>
         </Container>
