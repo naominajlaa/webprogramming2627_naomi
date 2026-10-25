@@ -1,5 +1,6 @@
 import './App.css';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
+import AppNavigation from './component/AppNavigation';
 import Badge from './component/Badge';
 import CardStatusDemo from './component/CardStatusDemo';
 import HeaderBanner from './component/HeaderBanner';
@@ -9,16 +10,25 @@ import TransaksiItem from './component/TransaksiItem';
 import WalletSummary from './component/WalletSummary';
 
 function App() {
+  const { pathname } = useLocation();
+
   return (
-    <Routes>
-      <Route path='/transaksi' element={ <TransaksiItem />} />
-      <Route path='/kartu' element={ <KartuRingkasan />} />
-      <Route path='/badge' element={ <Badge />} />
-      <Route path='/wallet' element={ <WalletSummary />} />
-      <Route path='/LayoutGrid' element={ <LayoutGrid/>  } />
-      <Route path='/HeaderBanner' element={ <HeaderBanner/>  } />
-      <Route path='/CardStatusDemo' element={ <CardStatusDemo/> } />
-    </Routes>
+    <>
+      {pathname !== '/AppNavigation' && (
+        <AppNavigation />
+      )}
+      <Routes>
+        <Route path='/' element={ <HeaderBanner/> } />
+        <Route path='/transaksi' element={ <TransaksiItem />} />
+        <Route path='/kartu' element={ <KartuRingkasan />} />
+        <Route path='/badge' element={ <Badge />} />
+        <Route path='/wallet' element={ <WalletSummary />} />
+        <Route path='/LayoutGrid' element={ <LayoutGrid/>  } />
+        <Route path='/HeaderBanner' element={ <HeaderBanner/>  } />
+        <Route path='/CardStatusDemo' element={ <CardStatusDemo/> } />
+        <Route path='/AppNavigation' element={ <AppNavigation/> } />
+      </Routes>
+    </>
   );
 }
 

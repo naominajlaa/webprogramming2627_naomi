@@ -5,8 +5,7 @@ function AppNavigation(){
     return (
         <Navbar bg='dark' variant='dark' expand='lg' className='mb-4'>
             <Container>
-                <Navbar.Brand as={NavLink} to='/'>Catatan 
-                Keuangan</Navbar.Brand>
+                <Navbar.Brand as={NavLink} to='/'>Catatan Keuangan</Navbar.Brand>
                 <Navbar.Toggle aria-controls='main-navigation' />
                 <Navbar.Collapse id='main-navigation'>
                     <Nav className='me-auto'>
