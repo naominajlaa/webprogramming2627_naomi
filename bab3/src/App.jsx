@@ -9,12 +9,11 @@ import WalletSummary from './component/WalletSummary';
 function App() {
   return (
     <Routes>
-      <Route path='/' element={<LayoutGrid />} />
-      <Route path='/transaksi' element={<TransaksiItem />} />
-      <Route path='/kartu' element={<KartuRingkasan />} />
-      <Route path='/badge' element={<Badge />} />
-      <Route path='/wallet' element={<WalletSummary />} />
-      <Route path='/LayoutGrid' element={<LayoutGrid />} />
+      <Route path='/transaksi' element={ <TransaksiItem />} />
+      <Route path='/kartu' element={ <KartuRingkasan />} />
+      <Route path='/badge' element={ <Badge />} />
+      <Route path='/wallet' element={ <WalletSummary />} />
+      <Route path='/LayoutGrid' element={ <LayoutGrid/>  } />
     </Routes>
   );
 }
