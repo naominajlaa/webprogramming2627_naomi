@@ -1,6 +1,7 @@
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import Badge from './component/Badge';
+import HeaderBanner from './component/HeaderBanner';
 import KartuRingkasan from './component/KartuRingkasan';
 import LayoutGrid from './component/LayoutGrid';
 import TransaksiItem from './component/TransaksiItem';
@@ -14,6 +15,7 @@ function App() {
       <Route path='/badge' element={ <Badge />} />
       <Route path='/wallet' element={ <WalletSummary />} />
       <Route path='/LayoutGrid' element={ <LayoutGrid/>  } />
+      <Route path='/HeaderBanner' element={ <HeaderBanner/>  } />
     </Routes>
   );
 }
