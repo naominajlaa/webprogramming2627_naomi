@@ -7,6 +7,7 @@ import CardStatusDemo from './component/CardStatusDemo';
 import HeaderBanner from './component/HeaderBanner';
 import KartuRingkasan from './component/KartuRingkasan';
 import LayoutGrid from './component/LayoutGrid';
+import TransactionManager from './component/TransactionManager';
 import TransaksiItem from './component/TransaksiItem';
 import WalletSummary from './component/WalletSummary';
 
@@ -28,6 +29,7 @@ function App() {
         <Route path='/HeaderBanner' element={ <HeaderBanner/>  } />
         <Route path='/CardStatusDemo' element={ <CardStatusDemo/> } />
         <Route path='/AppNavigation' element={ <AppNavigation/> } />
+        <Route path='/TransactionManager' element={ <TransactionManager/> } />
       </Routes>
     </>
   );
