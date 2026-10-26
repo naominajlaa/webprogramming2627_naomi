@@ -11,6 +11,7 @@ import TransactionManager from './component/TransactionManager';
 import TransaksiItem from './component/TransaksiItem';
 import WalletSummary from './component/WalletSummary';
 
+
 function App() {
   const { pathname } = useLocation();
 
