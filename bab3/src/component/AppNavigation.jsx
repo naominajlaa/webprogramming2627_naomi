@@ -30,6 +30,20 @@ function AppNavigation(){
                             to='/wallet'>WalletSummary</NavDropdown.Item>
                             <NavDropdown.Item as={NavLink} 
                             to='/postlistaxios'>Axios Post List</NavDropdown.Item>
+                            <NavDropdown.Item as={NavLink} 
+                            to='/postlistfetch'>Fetch Post List</NavDropdown.Item>
+                            <NavDropdown.Item as={NavLink}
+                            to='/daftartugas'>Daftar Tugas</NavDropdown.Item>
+                            <NavDropdown.Item as={NavLink}
+                            to='/formedittransaksi/1'>Form Edit Transaksi</NavDropdown.Item>
+                            <NavDropdown.Item as={NavLink}
+                            to='/formtambahtransaksi'>Form Tambah Transaksi</NavDropdown.Item>
+                            <NavDropdown.Item as={NavLink}
+                            to='/daftartransaksi'>Daftar Transaksi</NavDropdown.Item>
+                            <NavDropdown.Item as={NavLink}
+                            to='/tabeltransaksidinamis'>Tabel Transaksi Dinamis</NavDropdown.Item>
+                            <NavDropdown.Item as={NavLink}
+                            to='/tombolhapusdenganmodal'>Tombol Hapus Dengan Modal</NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
                 </Navbar.Collapse>

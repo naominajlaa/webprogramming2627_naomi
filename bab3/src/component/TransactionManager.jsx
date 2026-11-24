@@ -1,15 +1,41 @@
 //import {useState} from 'react';
-import { useState, useEffect } from 'react';
-import {Form, InputGroup, Modal, Button, Table, ProgressBar} from 'react-bootstrap';
+import { useState, useEffect } from "react";
+import {
+  Form,
+  InputGroup,
+  Modal,
+  Button,
+  Table,
+  ProgressBar,
+} from "react-bootstrap";
+import FormEditTransaksi from "./FormEditTransaksi";
+import TombolHapusDenganModal from "./TombolHapusDenganModal";
 //const s = useState(false)
 //const t = useState([])
-function TransactionManager() {
-    const [show, setShow] = useState(false)
-    const [transaksi, setTransaksi] = useState([])
-    const handleClose = () => setShow(false)
-    const handleShow = () => setShow(true)
+const formatRupiah = new Intl.NumberFormat("id-ID", {
+  style: "currency",
+  currency: "IDR",
+  maximumFractionDigits: 0,
+});
 
-    /*const ambilData = () => {
+const normalisasiNominal = (nominal) => {
+  if (typeof nominal === "number") {
+    return Number.isFinite(nominal) ? nominal : 0;
+  }
+
+  const angka = Number(String(nominal ?? "").replace(/[^\d-]/g, ""));
+  return Number.isFinite(angka) ? angka : 0;
+};
+
+function TransactionManager() {
+  const [show, setShow] = useState(false);
+  const [transaksi, setTransaksi] = useState([]);
+  const [transaksiEdit, setTransaksiEdit] = useState(null);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const handleCloseEdit = () => setTransaksiEdit(null);
+
+  /*const ambilData = () => {
         fetch('http://localhost:3000/transaksi')
             .then ((response) => response.json())
             .then((data) => {
@@ -20,96 +46,157 @@ function TransactionManager() {
                 console.error('Terjadi kesalahan:',error)
             });
     };*/
-
-    const ambilDataAsync = async () =>{
-        try {
-            const response = await fetch('http://localhost:3000/transaksi');
-            if (!response.ok) {
-                throw new Error ('Gagal mengambil data dari server');
-            }
-            const data = await response.json();
-            console.log ('Data diterima:', data);
-            setTransaksi(data);
-        } 
-        catch (error) {
-            console.error('Error:', error.message);
-        }
+  const handleDataUpdated = (dataTerbaru) => {
+    const transaksiTerbaru = {
+      ...dataTerbaru,
+      nominal: normalisasiNominal(dataTerbaru.nominal),
     };
+    setTransaksi((prevTransaksi) =>
+      prevTransaksi.map((item) =>
+        String(item.id) === String(transaksiTerbaru.id)
+          ? transaksiTerbaru
+          : item,
+      ),
+    );
+    handleCloseEdit();
+  };
 
-    useEffect(() => {
-        /*ambilData();*/
-        ambilDataAsync();
-    }, []);
+  const handleHapusSukses = (idDihapus) => {
+    setTransaksi((prevTransaksi) =>
+      prevTransaksi.filter((item) => String(item.id) !== String(idDihapus)),
+    );
+  };
 
-    return (
-        /*<AppNavigation />*/
-        <div className="container mt-4">
-        <div className="d-flex justify-content-between align-items-center mb-3">
-            <h3>Penggunaan Anggaran</h3>
-            <Button variant="success" onClick={handleShow}> + Tambah Transaksi </Button>
-        </div>
+  const ambilDataAsync = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/transaksi");
+      if (!response.ok) {
+        throw new Error("Gagal mengambil data dari server");
+      }
+      const data = await response.json();
+      console.log("Data diterima:", data);
+      setTransaksi(
+        data.map((item) => ({
+          ...item,
+          nominal: normalisasiNominal(item.nominal),
+        })),
+      );
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
+  };
 
-        <ProgressBar now={75} label="75%" variant="warning" className="mb-4" />
+  useEffect(() => {
+    /*ambilData();*/
+    ambilDataAsync();
+  }, []);
 
-        <Table striped bordered hover responsive>
-            <thead>
-            <tr>
-                <th>#</th>
-                <th>Keterangan</th>
-                <th>Kategori</th>
-                <th>Nominal</th>
+  return (
+    /*<AppNavigation />*/
+    <div className="container mt-4">
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h3>Penggunaan Anggaran</h3>
+        <Button variant="success" onClick={handleShow}>
+          {" "}
+          + Tambah Transaksi{" "}
+        </Button>
+      </div>
+
+      <ProgressBar now={75} label="75%" variant="warning" className="mb-4" />
+
+      <Table striped bordered hover responsive>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Keterangan</th>
+            <th>Kategori</th>
+            <th>Nominal</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          {transaksi.map((item, index) => (
+            <tr key={item.id || index}>
+              <td>{index + 1}</td>
+              <td>{item.keterangan}</td>
+              <td>{item.kategori}</td>
+              <td>{formatRupiah.format(normalisasiNominal(item.nominal))}</td>
+              <td>
+                <div className="d-flex justify-content-center gap-2">
+                  <Button
+                    variant="warning"
+                    size="sm"
+                    onClick={() => setTransaksiEdit(item)}
+                  >
+                    Edit
+                  </Button>
+                  <TombolHapusDenganModal
+                    idTransaksi={item.id}
+                    keterangan={item.keterangan}
+                    onDeleteSuccess={handleHapusSukses}
+                  />
+                </div>
+              </td>
             </tr>
-            </thead>
-            <tbody>
-                {
-                    transaksi.map(
-                        (item, index) => (
-                            <tr key={item.id || index}>
-                                <td>{index + 1}</td>
-                                <td>{item.keterangan}</td>
-                                <td>{item.kategori}</td>
-                                <td>{item.nominal}</td>
-                            </tr>
-                        )
-                    )
-                }
-                
-                {/* <tr>
+          ))}
+
+          {/* <tr>
                     <td>1</td>
                     <td>Belanja Bulanan</td>
                     <td>Pengeluaran</td>
                     <td>Rp 750.000</td>
                 </tr>*/}
+        </tbody>
+      </Table>
 
-            </tbody>
-        </Table>
+      <Modal show={show} onHide={handleClose} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Catat Transaksi Baru</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3">
+              <Form.Label>Keterangan</Form.Label>
+              <Form.Control type="text" placeholder="Misal: Bensin" />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Nominal</Form.Label>
+              <InputGroup>
+                <InputGroup.Text>Rp</InputGroup.Text>
+                <Form.Control type="number" placeholder="0" />
+              </InputGroup>
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            {" "}
+            Batal{" "}
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+            {" "}
+            Simpan Transaksi{" "}
+          </Button>
+        </Modal.Footer>
+      </Modal>
 
-        <Modal show={show} onHide={handleClose} centered>
-            <Modal.Header closeButton>
-            <Modal.Title>Catat Transaksi Baru</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-            <Form>
-                <Form.Group className="mb-3">
-                <Form.Label>Keterangan</Form.Label>
-                <Form.Control type="text" placeholder="Misal: Bensin" />
-                </Form.Group>
-                <Form.Group className="mb-3">
-                <Form.Label>Nominal</Form.Label>
-                <InputGroup>
-                    <InputGroup.Text>Rp</InputGroup.Text>
-                    <Form.Control type="number" placeholder="0" />
-                </InputGroup>
-                </Form.Group>
-            </Form>
-            </Modal.Body>
-            <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}> Batal </Button>
-            <Button variant="primary" onClick={handleClose}> Simpan Transaksi </Button>
-            </Modal.Footer>
-        </Modal>
-        </div>
-    );
+      <Modal show={Boolean(transaksiEdit)} onHide={handleCloseEdit} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Edit Transaksi</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {transaksiEdit && (
+            <FormEditTransaksi
+              key={transaksiEdit.id}
+              dataAwal={transaksiEdit}
+              onUpdateSuccess={handleDataUpdated}
+              onCancel={handleCloseEdit}
+            />
+          )}
+        </Modal.Body>
+      </Modal>
+    </div>
+  );
 }
 
 export default TransactionManager;

@@ -11,12 +11,18 @@ import TransactionManager from './component/TransactionManager';
 import TransaksiItem from './component/TransaksiItem';
 import WalletSummary from './component/WalletSummary';
 import PostListAxios from './component/PostListAxios';
-
-
+import DaftarTugas from './component/DaftarTugas';
+import PostListFetch from './component/PostListFetch';
+import FormEditTransaksi from './component/FormEditTransaksi';
+import FormTambahTransaksi from './component/FormTambahTransaksi';
+import FormTambahTransaksiPost from './component/FormTambahTransaksiPost';
+import DaftarTransaksi from './component/DaftarTransaksi';
+import TabelTransaksiDinamis from './component/TabelTransaksiDinamis';
+import TombolHapusDenganModal from './component/TombolHapusDenganModal';
 
 function App() {
   const { pathname } = useLocation();
-
+  
   return (
     <>
       {pathname !== '/AppNavigation' && (
@@ -34,6 +40,14 @@ function App() {
         <Route path='/AppNavigation' element={ <AppNavigation/> } />
         <Route path='/TransactionManager' element={ <TransactionManager/> } />
         <Route path='/postlistaxios' element={ <PostListAxios/> } />
+        <Route path='/postlistfetch' element={ <PostListFetch/> } />
+        <Route path='/daftartugas' element={ <DaftarTugas/> } />
+        <Route path='/formedittransaksi/:id' element={ <FormEditTransaksi/> } />
+        <Route path='/formtambahtransaksi' element={ <FormTambahTransaksi/> } />
+        <Route path='/formtambahtransaksipost' element={ <FormTambahTransaksiPost/> } />
+        <Route path='/daftartransaksi' element={ <DaftarTransaksi/> } />
+        <Route path='/tabeltransaksidinamis' element={ <TabelTransaksiDinamis/> } />
+        <Route path='/tombolhapusdenganmodal' element={ <TombolHapusDenganModal/> } />
       </Routes>
     </>
   );
